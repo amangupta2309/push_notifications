@@ -30,7 +30,7 @@ app.get('/', (req, res, next) => {
   res.send('This is the express server');
 });
 
-// using cron sending weather update to all users at schdeuled time
+//using cron sending weather update to all users at schdeuled time
 cron.schedule('*/10 * * * *', function () {
 sendWeatherAlert.sendAlerts().then(function (result) {
   console.log(result);
@@ -154,6 +154,6 @@ app.post('/useractivity', async (req, res) => {
       });
 
 });
-
-app.listen(5000, () => console.log(`Listening to port 5000`));
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => console.log(`Listening to port ${PORT}`));
 
