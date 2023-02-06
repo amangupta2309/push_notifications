@@ -31,14 +31,14 @@ app.get('/', (req, res, next) => {
 });
 
 //using cron sending weather update to all users at schdeuled time
-cron.schedule('0 * * * *', function () {
-sendWeatherAlert.sendAlerts().then(function (result) {
-  // console.log(result);
-});
-sendCricAlert.cricAlerts();
-sendFinAlert.finAlerts();
-sendEntAlert.entAlerts();
-});
+// cron.schedule('0 * * * *', function () {
+// sendWeatherAlert.sendAlerts().then(function (result) {
+//   // console.log(result);
+// });
+// sendCricAlert.cricAlerts();
+// sendFinAlert.finAlerts();
+// sendEntAlert.entAlerts();
+// });
 
 app.get('/notify',(req,res)=>{
   res.send("notify page");
