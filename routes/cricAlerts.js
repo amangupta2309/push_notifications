@@ -16,10 +16,11 @@ exports.cricAlerts = async () => {
   };
   const userOptions = {
     method: 'GET',
-    url: 'http://localhost:5000/getusers',
+    url: 'https://push-notifications-513j.onrender.com/getusers',
   };
   var user = await axios.request(userOptions);
   user = user.data;
+ 
 
   for (var key in user) {
     if(user[key].preference === "Cricket")
@@ -28,18 +29,20 @@ exports.cricAlerts = async () => {
 //   console.log(payload);
   const options = {
     method: 'GET',
-    url: 'https://cricbuzz-cricket.p.rapidapi.com/news/v1/detail/122025',
-    headers: {
-      'X-RapidAPI-Key': 'bc65df8011msh743163aa8215daap143b8ejsnb48c09086d14',
-      'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com',
+    url: 'https://cricbuzz-cricket.p.rapidapi.com/news/v1/index',
+        headers: {
+      'X-RapidAPI-Key': process.env.API_KEY,
+      'X-RapidAPI-Host': process.env.API_HOST_KEY_CRICKET,
     },
   };
 
   await axios
     .request(options)
     .then(function (response) {
-      payload.notification.body = response.data.headline;
-      payload.notification.title += response.data.source;
+      // console.log(response.data)
+      // console.log(response.data.storyList[0].story.hline)
+      payload.notification.body = response.data.storyList[0].story.hline;
+      payload.notification.title += response.data.storyList[0].story.source;
       // console.log(payload,'ak');
       messaging
         .sendMulticast(payload)

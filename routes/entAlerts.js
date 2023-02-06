@@ -15,10 +15,11 @@ exports.entAlerts = async () => {
   };
   const userOptions = {
     method: 'GET',
-    url: 'http://localhost:5000/getusers',
+    url: "https://push-notifications-513j.onrender.com/getusers",
   };
   var user = await axios.request(userOptions);
   user = user.data;
+  
 
   for (var key in user) {
     if(user[key].preference === "Entertainment")
@@ -27,18 +28,21 @@ exports.entAlerts = async () => {
   // console.log(payload);
   const options = {
     method: 'GET',
-    url: 'https://dad-jokes-by-api-ninjas.p.rapidapi.com/v1/dadjokes',
+    url: 'https://dad-jokes.p.rapidapi.com/random/joke',
     headers: {
-      'X-RapidAPI-Key': 'bc65df8011msh743163aa8215daap143b8ejsnb48c09086d14',
-      'X-RapidAPI-Host': 'dad-jokes-by-api-ninjas.p.rapidapi.com'
+      'X-RapidAPI-Key': process.env.API_KEY,
+      'X-RapidAPI-Host': process.env.API_HOST_KEY_JOKES
     }
   };
 
   await axios
     .request(options)
     .then(function (response) {
-      payload.notification.body = response.data[0].joke;
-      console.log(payload,'ak');
+      // console.log(response.data.body[0].punchline);
+     
+      payload.notification.body = response.data.body[0].setup + " ";
+      payload.notification.body += response.data.body[0].punchline;
+      // console.log(payload,'ak');
       messaging
         .sendMulticast(payload)
         .then(response => {

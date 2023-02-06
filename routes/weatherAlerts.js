@@ -8,7 +8,7 @@ const scheduleTime = new Date();
 
 const options = {
   method: 'GET',
-  url: 'http://localhost:5000/getusers',
+  url: process.env.USER_DATABASE_URL,
 };
 
 exports.sendAlerts = async () => {
@@ -42,7 +42,7 @@ exports.sendAlerts = async () => {
       await messaging
         .sendMulticast(payload)
         .then(response => {
-          console.log(response);
+          // console.log(response);
           Update.AnalyticsUpdate(response, scheduleTime);
           // res.send(result)
           usercnt += 1;
